@@ -31,13 +31,13 @@ namespace Primpasso.Controllers
             return Ok(LoginService.GerarToken(user));
         }
 
-        [HttpGet("Company/{companyLogin}")]
+        [HttpGet("{companyLogin}")]
         public ActionResult<UserDTO> GetCompany(string companyLogin)
         {
             return Ok(companyService.GetCompany(companyLogin));
         }
 
-        [HttpPost("Company")]
+        [HttpPost]
         [AllowAnonymous]
         public ActionResult PostCompany([FromBody] NewUserDTO company)
         {
@@ -45,13 +45,13 @@ namespace Primpasso.Controllers
             return Ok();
         }
 
-        [HttpPut("Company")]
+        [HttpPut]
         public ActionResult<UserDTO> PutCompany([FromBody] NewUserDTO company)
         {
             return Ok(companyService.ModifyCompany(company));
         }
 
-        [HttpDelete("Company/{companyLogin}")]
+        [HttpDelete("{companyLogin}")]
         public ActionResult DeleteCompany(string companyLogin)
         {
             companyService.DeleteCompany(companyLogin);

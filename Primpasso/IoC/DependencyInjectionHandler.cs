@@ -17,12 +17,15 @@ namespace Primpasso.IoC
 
             service.AddScoped<ICompanyService, CompanyService>();
             service.AddScoped<ICandidateService, CandidateService>();
+            service.AddScoped<IJobOpportunityService, JobOpportunityService>();
 
-            service.AddScoped<ICandidateRepository, CandidateRepository>();
             service.AddScoped<ICompanyRepository, CompanyRepository>();
+            service.AddScoped<ICandidateRepository, CandidateRepository>();
+            service.AddScoped<IJobOpportunityRepository, JobOpportunityRepository>();
 
-            service.AddScoped<ICandidateUow, CandidateUow>();
             service.AddScoped<ICompanyUow, CompanyUow>();
+            service.AddScoped<ICandidateUow, CandidateUow>();
+            service.AddScoped<IJobOpportunityUow, JobOpportunityUow>();
 
             return service;
         }
