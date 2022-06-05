@@ -36,6 +36,9 @@ namespace Primpasso.BLL.Service
         {
             Candidate candidate = candidateUow.CandidateRepository.Get(login, LoginService.Cifrar(password));
 
+            if (candidate is null)
+                throw new Exception("Login ou senha invalidos.");
+
             if (candidate.IsDeleted)
                 throw new Exception("Esse usuário foi excluído");
 

@@ -37,6 +37,9 @@ namespace Primpasso.BLL.Service
         {
             Company company = companyUow.CompanyRepository.Get(login, LoginService.Cifrar(password));
 
+            if (company is null)
+                throw new Exception("Login ou senha invalidos.");
+
             if (company.IsDeleted)
                 throw new Exception("Esse usuário foi excluído");
 

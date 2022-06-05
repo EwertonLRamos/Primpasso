@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Primpasso.BLLInfra.Service;
 using Primpasso.Models.DTO;
+using System;
 
 namespace Primpasso.Controllers
 {
@@ -23,12 +24,16 @@ namespace Primpasso.Controllers
         [AllowAnonymous]
         public ActionResult<UserLogedDTO> LoginCompany([FromBody] UserLoginDTO userLogin)
         {
-            var user = companyService.GetCompany(userLogin.Login, userLogin.Senha);
+            try
+            {
+                var user = companyService.GetCompany(userLogin.Login, userLogin.Senha);
 
-            if (user == null)
-                return NotFound(new { message = "Usuário ou senha inválidos" });
-
-            return Ok(LoginService.GerarToken(user));
+                return Ok(LoginService.GerarToken(user));
+            }
+            catch (Exception e)
+            {
+                return NotFound(new { message =  e.Message });
+            }
         }
 
         [HttpGet("{companyLogin}")]
