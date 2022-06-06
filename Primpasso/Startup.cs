@@ -86,10 +86,11 @@ namespace Primpasso
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Primpasso v1"));
             }
 
+
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
