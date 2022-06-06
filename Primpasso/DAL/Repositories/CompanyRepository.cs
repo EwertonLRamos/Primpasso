@@ -12,7 +12,7 @@ namespace Primpasso.DAL.Repositories
 
         public Company Get(string login)
         {
-            return primpassoDbContext.Company.FirstOrDefault(x => x.Login == login && x.IsDeleted);
+            return primpassoDbContext.Company.FirstOrDefault(x => x.Login == login && !x.IsDeleted);
         }
 
         public Company Get(string login, string password)

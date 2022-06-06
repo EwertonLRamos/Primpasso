@@ -12,7 +12,7 @@ namespace Primpasso.DAL.Repositories
 
         public Candidate Get(string login)
         {
-            return primpassoDbContext.Candidate.FirstOrDefault(x => x.Login == login && x.IsDeleted);
+            return primpassoDbContext.Candidate.FirstOrDefault(x => x.Login == login && !x.IsDeleted);
         }
 
         public Candidate Get(string login, string password)

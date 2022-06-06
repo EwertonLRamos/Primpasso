@@ -19,7 +19,7 @@ namespace Primpasso.DAL.Repositories
         {
             List<JobOpportunityDTO> jobOpportunities = primpassoDbContext.JobOpportunity
                 .Where(x => x.OpenDate >= DateTime.Now && x.ClosingDate <= DateTime.Now)
-                .Where(x => x.Id == id && x.IsDeleted)
+                .Where(x => x.Id == id && !x.IsDeleted)
                 .Select(x => new JobOpportunityDTO
                 {
                     Id = x.Id,
@@ -42,6 +42,7 @@ namespace Primpasso.DAL.Repositories
         {
             List<JobOpportunityDummy> jobOpportunities = primpassoDbContext.JobOpportunity
                 .Where(x => x.OpenDate >= DateTime.Now && x.ClosingDate <= DateTime.Now)
+                .Where(x => !x.IsDeleted)
                 .Select(x => new JobOpportunityDummy
                 {
                     Id = x.Id,
