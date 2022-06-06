@@ -57,6 +57,7 @@ namespace Primpasso
             });
 
             var key = Encoding.ASCII.GetBytes(AuthSettings.JWTSecret);
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
