@@ -47,8 +47,15 @@ namespace Primpasso.Controllers
         [AllowAnonymous]
         public ActionResult PostCandidate([FromBody] NewUserDTO candidate)
         {
-            candidateService.InsertCandidate(candidate);
-            return Ok();
+            try
+            {
+                candidateService.InsertCandidate(candidate);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut]

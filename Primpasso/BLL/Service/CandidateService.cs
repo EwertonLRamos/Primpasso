@@ -48,7 +48,7 @@ namespace Primpasso.BLL.Service
         public void InsertCandidate(NewUserDTO newCandidate)
         {
             if (GetCandidate(newCandidate.Login) is not null)
-                throw new Exception("Já existe uma empresa com este login.");
+                throw new Exception("Já existe um candidato com este login.");
 
             newCandidate.Password = LoginService.Cifrar(newCandidate.Password);
 
@@ -65,16 +65,22 @@ namespace Primpasso.BLL.Service
 
         public UserDTO ModifyCandidate(NewUserDTO candidate)
         {
-            Candidate newCandidate = candidateUow.CandidateRepository.Update(new()
-            {
-                //Id = candidateUow.CandidateRepository.Get(candidate.Login).Id,
-                Name = candidate.Name,
-                Email = candidate.Email,
-                Login = candidate.Login,
-                Password = candidate.Password,
-                CPF = candidate.IdentifierCode,
-                PhoneNumber = candidate.PhoneNumber
-            });
+            var candidatoOld = candidateUow.CandidateRepository.Get(candidate.Login);
+            
+            if(candidatoOld is null)
+                throw new Exception("Esse usuário não existe.");
+
+            if (candidatoOld.Login != candidate.Login)
+                throw new Exception("Não é possível modificar o login.");
+
+            candidatoOld.Name = candidate.Name;
+            candidatoOld.Email = candidate.Email;
+            candidatoOld.Login = candidate.Login;
+            candidatoOld.Password = LoginService.Cifrar(candidate.Password);
+            candidatoOld.CPF = candidate.IdentifierCode;
+            candidatoOld.PhoneNumber = candidate.PhoneNumber;
+
+            Candidate newCandidate = candidateUow.CandidateRepository.Update(candidatoOld);
 
             return new UserDTO
             {

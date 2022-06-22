@@ -47,8 +47,15 @@ namespace Primpasso.Controllers
         [AllowAnonymous]
         public ActionResult PostCompany([FromBody] NewUserDTO company)
         {
-            companyService.InsertCompany(company);
-            return Ok();
+            try 
+            {
+                companyService.InsertCompany(company);
+                return Ok();
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPut]
