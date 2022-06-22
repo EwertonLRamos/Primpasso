@@ -66,15 +66,22 @@ namespace Primpasso.BLL.Service
 
         public UserDTO ModifyCompany(NewUserDTO company)
         {
-            Company newCompany = companyUow.CompanyRepository.Update(new()
-            {
-                Name = company.Name,
-                Email = company.Email,
-                Login = company.Login,
-                Password = company.Password,
-                CNPJ = company.IdentifierCode,
-                PhoneNumber = company.PhoneNumber
-            });
+            var empresaOld = companyUow.CompanyRepository.Get(company.Login);
+
+            if(empresaOld is null)
+                throw new Exception("Essa empresa não existe.");
+
+            if (empresaOld.Login != company.Login)
+                throw new Exception("Não é possível modificar o login."); 
+
+            empresaOld.Name = company.Name;
+            empresaOld.Email = company.Email;
+            empresaOld.Login = company.Login;
+            empresaOld.Password = LoginService.Cifrar(company.Password);
+            empresaOld.CNPJ = company.IdentifierCode;
+            empresaOld.PhoneNumber = company.PhoneNumber;
+
+            Company newCompany = companyUow.CompanyRepository.Update(empresaOld);
 
             return new UserDTO
             {
