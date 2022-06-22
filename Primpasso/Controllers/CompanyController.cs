@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Primpasso.BLLInfra.Service;
 using Primpasso.Models.DTO;
 using System;
+using System.Security.Claims;
 
 namespace Primpasso.Controllers
 {
@@ -59,6 +60,9 @@ namespace Primpasso.Controllers
         [HttpDelete("{companyLogin}")]
         public ActionResult DeleteCompany(string companyLogin)
         {
+            if(User.FindFirst(ClaimTypes.NameIdentifier)?.Value != companyLogin)
+                return NotFound("Você só pode excluir seu usuário.");
+            
             companyService.DeleteCompany(companyLogin);
             return Ok();
         }

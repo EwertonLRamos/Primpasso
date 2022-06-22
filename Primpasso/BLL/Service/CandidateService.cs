@@ -67,6 +67,7 @@ namespace Primpasso.BLL.Service
         {
             Candidate newCandidate = candidateUow.CandidateRepository.Update(new()
             {
+                //Id = candidateUow.CandidateRepository.Get(candidate.Login).Id,
                 Name = candidate.Name,
                 Email = candidate.Email,
                 Login = candidate.Login,
