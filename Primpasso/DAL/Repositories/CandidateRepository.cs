@@ -28,6 +28,7 @@ namespace Primpasso.DAL.Repositories
 
         public Candidate Update(Candidate candidate)
         {
+            //primpassoDbContext.Candidate.Remove(candidate);
             var query = primpassoDbContext.Candidate.Update(candidate);
             primpassoDbContext.SaveChanges();
 
