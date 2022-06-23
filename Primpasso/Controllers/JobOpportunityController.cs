@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Primpasso.BLLInfra.Service;
 using Primpasso.Models.DTO;
+using System;
 using System.Collections.Generic;
 
 
@@ -22,7 +23,14 @@ namespace Primpasso.Controllers
         [HttpGet("{id}")]
         public ActionResult<JobOpportunityDTO> GetJobOpportunity(int id)
         {
-            return Ok(jobOpportunityService.GetJobOpportunity(id));
+            try
+            {
+                return Ok(jobOpportunityService.GetJobOpportunity(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("ForStatus/{jobTypeId}")]

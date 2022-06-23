@@ -9,7 +9,7 @@ namespace Primpasso.DALInfra.Repositories
     public interface IJobOpportunityRepository
     {
         void Delete(JobOpportunity jobOpportunity);
-        JobOpportunityDTO Get(int id);
+        List<JobOpportunityDTO> Get(int id);
         List<JobOpportunityDummy> GetAll();
         JobOpportunity GetEntity(int Id);
         public JobType GetJobType(int jobtypeId);

@@ -19,12 +19,12 @@ namespace Primpasso.BLL.Service
 
         public JobOpportunityDTO GetJobOpportunity(int id)
         {
-            JobOpportunityDTO jobOpportunity = jobOpportunityUow.JobOpportunityRepository.Get(id);
+            List<JobOpportunityDTO> jobOpportunity = jobOpportunityUow.JobOpportunityRepository.Get(id);
 
             if (jobOpportunity is null)
-                return null;
+                throw new Exception("Não existe nenhuma vaga cadastrada para esse Id");
 
-            return jobOpportunity;
+            return jobOpportunity[0];
         }
 
         public ICollection<JobOpportunitySmallDTO> GetStatus(int? jobTypeId)

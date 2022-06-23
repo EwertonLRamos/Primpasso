@@ -15,10 +15,10 @@ namespace Primpasso.DAL.Repositories
         public JobOpportunityRepository(PrimpassoDbContext primpassoDbContext) : base(primpassoDbContext)
         { }
 
-        public JobOpportunityDTO Get(int id)
+        public List<JobOpportunityDTO> Get(int id)
         {
             List<JobOpportunityDTO> jobOpportunities = primpassoDbContext.JobOpportunity
-                .Where(x => x.OpenDate >= DateTime.Now && x.ClosingDate <= DateTime.Now)
+                .Where(x => x.OpenDate <= DateTime.Now && x.ClosingDate >= DateTime.Now)
                 .Where(x => x.Id == id && !x.IsDeleted)
                 .Select(x => new JobOpportunityDTO
                 {
@@ -30,7 +30,7 @@ namespace Primpasso.DAL.Repositories
                     JobType = x.JobType.Description
                 }).ToList();
 
-            return jobOpportunities[0];
+            return jobOpportunities;
         }
 
         public JobOpportunity GetEntity(int Id)
@@ -67,16 +67,27 @@ namespace Primpasso.DAL.Repositories
             var jobOpportunitySaved = primpassoDbContext.JobOpportunity.Update(jobOpportunity);
             primpassoDbContext.SaveChanges();
 
-            //var jobOpportunityAux = Get(jobOpportunitySaved.Entity.Id);
+            var jobOpportunityEntity = primpassoDbContext.JobOpportunity
+                .Where(x => x.Id == jobOpportunitySaved.Entity.Id)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.OpenDate,
+                    x.ClosingDate,
+                    x.Description,
+                    CompanyName = x.Company.Name,
+                    JobTypeDescription = x.JobType.Description
+                })
+                .ToList();
 
             return new JobOpportunityDTO
             {
-                Id = jobOpportunitySaved.Entity.Id,
-                OpenDate = jobOpportunitySaved.Entity.OpenDate,
-                ClosingDate = jobOpportunitySaved.Entity.ClosingDate,
-                Description = jobOpportunitySaved.Entity.Description,
-                Company = jobOpportunitySaved.Entity.Company.Name,
-                JobType = jobOpportunitySaved.Entity.JobType.Description
+                Id = jobOpportunityEntity[0].Id,
+                OpenDate = jobOpportunityEntity[0].OpenDate,
+                ClosingDate = jobOpportunityEntity[0].ClosingDate,
+                Description = jobOpportunityEntity[0].Description,
+                Company = jobOpportunityEntity[0].CompanyName,
+                JobType = jobOpportunityEntity[0].JobTypeDescription
             };
         }
 
