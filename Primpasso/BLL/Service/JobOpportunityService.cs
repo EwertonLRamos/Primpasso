@@ -21,7 +21,7 @@ namespace Primpasso.BLL.Service
         {
             List<JobOpportunityDTO> jobOpportunity = jobOpportunityUow.JobOpportunityRepository.Get(id);
 
-            if (jobOpportunity is null)
+            if (jobOpportunity.Count == 0)
                 throw new Exception("Não existe nenhuma vaga cadastrada para esse Id");
 
             return jobOpportunity[0];
